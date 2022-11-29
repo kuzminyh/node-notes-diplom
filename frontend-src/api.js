@@ -25,7 +25,7 @@ const req = (url, options = {}) => {
 
 export const getNotes = async ({ age, search, page }) => {
   const notes = await fetch(
-    `/dashboard/getNotes?` +
+    `/api/notes?` +
     new URLSearchParams({
       age,
       search,
@@ -40,7 +40,7 @@ export const createNote = async (title, text) => {
     title: title,
     note: text,
   };
-  const response = await fetch(`${location.origin}/dashboard/newNotes`, {
+  const response = await fetch(`${location.origin}/api/notes`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -53,7 +53,7 @@ export const createNote = async (title, text) => {
 };
 
 export const getNote = async (id) => {
-  const note = await fetch(`/dashboard/note/${id}`).then((result) => result.json());
+  const note = await fetch(`/api/notes/${id}`).then((result) => result.json());
   log("getNote=", note);
   return note;
 };
@@ -62,7 +62,7 @@ export const archiveNote = async (id) => {
   const note = {
     id,
   };
-  await fetch("/dashboard/archive", {
+  await fetch("/api/archive", {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -75,7 +75,7 @@ export const unarchiveNote = async (id) => {
   const note = {
     id,
   };
-  await fetch(`/dashboard/unarchive`, {
+  await fetch(`/api/unarchive`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -92,7 +92,7 @@ export const editNote = async (id, title, text) => {
   };
   log("editedNote=", editedNote);
   // const result
-  const note = await fetch(`${location.origin}/dashboard/editNote/${id}`, {
+  const note = await fetch(`${location.origin}/api/notes/${id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -103,7 +103,7 @@ export const editNote = async (id, title, text) => {
 };
 
 export const deleteNote = async (id) => {
-  const deletedNote = await fetch(`${location.origin}/dashboard/delete/${id}`, {
+  const deletedNote = await fetch(`${location.origin}/api/delete/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -112,7 +112,7 @@ export const deleteNote = async (id) => {
 };
 
 export const deleteAllArchived = async (id) => {
-  const deletedAll = await fetch(`${location.origin}/dashboard/deleteAll`, {
+  const deletedAll = await fetch(`${location.origin}/api/deleteAll`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json;charset=utf-8",

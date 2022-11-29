@@ -20,8 +20,8 @@ const log = console.log;
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-app.use('/', require("./users"))
-app.use('/dashboard', require("./dashboard"))
+app.use('/', require("./apiUsers"))
+app.use('/api', require("./apiNotes"))
 
 app.use(express.static("public")); //мидлваре для дачи статич файлов из папки public
 

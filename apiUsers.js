@@ -88,7 +88,7 @@ router.post("/login", bodyParser.urlencoded({ extended: false }), async (req, re
   const token = nanoid();
   const sessionId = await createSession(user.id, token);
 
-  res.cookie("sessionId", sessionId, { httpOnly: true, maxAge: 100000 }).redirect("/dashboard"); //?user=${user.username}&token=${token}
+  res.cookie("sessionId", sessionId, { httpOnly: true, maxAge: 100000 }).redirect("/api"); //?user=${user.username}&token=${token}
 });
 
 router.post("/signup", bodyParser.urlencoded({ extended: false }), async (req, res) => {
@@ -101,7 +101,7 @@ router.post("/signup", bodyParser.urlencoded({ extended: false }), async (req, r
   console.log("newUser=", newUser);
   const sessionId = await createSession(newUser.id);
   // req.user = user;
-  res.cookie("sessionId", sessionId, { httpOnly: true }).redirect("/dashboard"); //maxAge: 100000
+  res.cookie("sessionId", sessionId, { httpOnly: true }).redirect("/api"); //maxAge: 100000
 });
 
 router.get("/logout", auth(), async (req, res) => {

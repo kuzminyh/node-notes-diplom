@@ -14,7 +14,7 @@ const knex = require("knex")({
 
 const log = console.log
 
-router.patch("/editNote/:id", auth(), async (req, res) => {
+router.patch("/notes/:id", auth(), async (req, res) => {
   log("note after upd=");
   const data = req.body;
   const created = new Date();
@@ -27,7 +27,7 @@ router.patch("/editNote/:id", auth(), async (req, res) => {
     log("note after upd=", note);
 
     res.sendStatus(204)
-    //.redirect("/dashboard");
+    //.redirect("/api");
   } catch (error) {
     console.error(error);
     res.status(400).send(error.message);
@@ -61,7 +61,7 @@ router.get("/", auth(), async (req, res) => {
   res.render("dashboard", { username: req.user.username, userId: req.user.id, entries: notes });
 });
 
-router.get("/getNotes", auth(), async (req, res) => {
+router.get("/notes", auth(), async (req, res) => {
   try {
     let age = req.query.age;
     const end = new Date();
@@ -113,7 +113,7 @@ router.delete("/deleteAll", auth(), async (req, res) => {
   }
 });
 
-router.post("/newNotes", auth(), async (req, res) => {
+router.post("/notes", auth(), async (req, res) => {
   const data = req.body;
 
   try {
@@ -131,13 +131,13 @@ router.post("/newNotes", auth(), async (req, res) => {
       .where({ time_created: created });
     log("newnote=", result);
     res.status(200).send(result[0]);
-    //res.redirect('/dashboard')  //08 11 2022
+    //res.redirect('/api')  //08 11 2022
   } catch (error) {
     console.error(error);
     res.status(400).send(error.message);
   }
 
-  // res.redirect("/dashboard")
+  // res.redirect("/api")
   // return res.status(200)
 });
 
@@ -148,7 +148,7 @@ router.post("/archive", auth(), async (req, res) => {
     await knex("notes").where({ id: data.id }).update({
       isArchived: true,
     });
-    res.redirect("/dashboard");
+    res.redirect("/api");
   } catch (error) {
     console.error(error);
     res.status(400).send(error.message);
@@ -162,7 +162,7 @@ router.post("/unarchive", auth(), async (req, res) => {
     await knex("notes").where({ id: data.id }).update({
       isArchived: false,
     });
-    res.redirect("/dashboard");
+    res.redirect("/api");
   } catch (error) {
     console.error(error);
     res.status(400).send(error.message);
@@ -177,10 +177,9 @@ const getOneNote = async (noteId) => {
   return oneNote;
 };
 
-router.get("/note/:id", auth(), async (req, res) => {
+router.get("/notes/:id", auth(), async (req, res) => {
   const note = await getOneNote(req.params.id);
   log("note=", note);
   res.status(200).cookie("sessionId", req.cookies["sessionId"]).send(note[0]);
-  // res.render("NoteEdit", { params: note })
 });
 module.exports = router;
