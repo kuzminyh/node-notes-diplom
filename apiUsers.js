@@ -5,21 +5,21 @@ const log = console.log;
 const auth = require("./middlewares");
 const express = require("express");
 const router = express.Router()
-// const knex = require("knex")({
-//   client: "pg",
-//   connection: {
-//     host: process.env.DB_HOST,
-//     port: process.env.DB_PORT || 5432,
-//     database: process.env.DB_NAME,
-//     user: process.env.DB_USER,
-//     password: process.env.DB_PASSWORD,
-//   },
-// });
-const knex = require('knex')({
-  client: 'pg',
-  connection: process.env.PG_CONNECTION_STRING,
-  searchPath: ['knex', 'public'],
+const knex = require("knex")({
+  client: "pg",
+  connection: {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT || 5432,
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+  },
 });
+// const knex = require('knex')({
+//   client: 'pg',
+//   connection: process.env.PG_CONNECTION_STRING,
+//   searchPath: ['knex', 'public'],
+// });
 
 
 const hash = async (d) => {
@@ -29,12 +29,12 @@ const hash = async (d) => {
   return hashed;
 };
 
-const createSession = async (userId, tokenId) => {
+const createSession = async (userId) => {
   const sessionID = nanoid();
   await knex("sessions").insert({
     user_id: userId,
     session_id: sessionID,
-    token_id: tokenId,
+    // token_id: tokenId,
   });
   return sessionID;
 };

@@ -6,7 +6,7 @@
   "keywords": [],
   "main": "index.js",
   "scripts": {
-    "db:migrate": "knex migrate:latest",
+    "migrate": "knex migrate:latest",
     "start": "node index.js",
     "test": "cross-env NODE_ENV=test echo \"Tests passed\" && exit 0",
     "build": "cross-env NODE_ENV=production rimraf public/bundle.* && rollup --config",
